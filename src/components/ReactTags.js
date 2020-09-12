@@ -22,6 +22,7 @@ import {
 
 class ReactTags extends Component {
   static propTypes = {
+     onValidate: PropTypes.func,
     placeholder: PropTypes.string,
     labelField: PropTypes.string,
     suggestions: PropTypes.arrayOf(
@@ -318,6 +319,11 @@ class ReactTags extends Component {
     if (!tag.id || !tag[labelField]) {
       return;
     }
+    
+    if (typeof this.props.onValidate === "function" && !this.props.onValidate(tag)) {
+  return
+}
+    
     const existingKeys = tags.map((tag) => tag.id.toLowerCase());
 
     // Return if tag has been already added
